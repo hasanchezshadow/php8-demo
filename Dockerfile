@@ -1,17 +1,17 @@
-FROM php:latest
-LABEL authors="ShadowWalker"
+#FROM nginx:latest
+#LABEL authors="ShadowWalker"
+#
+#COPY nginx.conf /etc/nginx/conf.d/nginx.conf
+#COPY . /var/www/html
+#
+#WORKDIR /var/www/html
 
-FROM php:latest
+FROM php:8.2-fpm
 
-COPY 000-default.conf /etc/apache2/sites-available/000-default.conf
-COPY start-apache /usr/local/bin
-RUN sudo a2enmod rewrite
+RUN apt-get update && apt-get install -y \
+    git \
+    curl \
+    zip \
+    unzip
 
-# Copy application source
-COPY ./ /var/www/
-RUN chown -R www-data:www-data /var/www
-
-CMD ["start-apache"]
-
-
-ENTRYPOINT ["top", "-b"]
+WORKDIR /var/www/html

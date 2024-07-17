@@ -1,0 +1,22 @@
+services:
+  app:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    container_name: marvel-next-movie-app
+    restart: always
+    working_dir: /var/www/html
+    volumes:
+      - ./:/var/www/html
+  nginx:
+    image: nginx:latest
+    container_name: marvel-next-movie-nginx
+    restart: always
+    ports:
+      - "80:80"
+    environment:
+      - NGINX_HOST=localhost
+      - NGINX_PORT=80
+    volumes:
+      - ./:/var/www/html
+      - ./:/etc/nginx/conf.d
